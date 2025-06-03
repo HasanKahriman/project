@@ -12,11 +12,22 @@ public class Player implements Comparable<Player> {
     private Date birthDate;
     private ArrayList<String> clubs;
 
+    public Player(){
+        this("","",new Date(),new ArrayList<>());
+    }
+
     public Player(String name, String surname, Date birthDate, ArrayList<String> clubs) {
-        this.name = name;
-        this.surname = surname;
-        this.birthDate = birthDate;
-        this.clubs = clubs;
+        this.setName(name);
+        this.setSurname(surname);
+        this.setBirthDate(birthDate);
+        this.setClubs(clubs);
+    }
+
+    public Player(Player playerToBeCopied){
+        this.setName(playerToBeCopied.getName());
+        this.setSurname(playerToBeCopied.getSurname());
+        this.setBirthDate(playerToBeCopied.getBirthDate());
+        this.setClubs(playerToBeCopied.getClubs());
     }
 
     public String getName() {
@@ -59,5 +70,19 @@ public class Player implements Comparable<Player> {
         }else {
             return this.surname.compareTo(otherPlayer.getSurname());
         }
+    }
+
+    public boolean equals(Object otherPlayer) {
+        if (otherPlayer == null){
+            return false;
+        }else if (!(otherPlayer instanceof Player)){
+            return false;
+        }else {
+            return (this.getName().equals(((Player)otherPlayer).getName()) && this.getSurname().equals(((Player)otherPlayer).getSurname()) && this.getBirthDate().equals(((Player)otherPlayer).getBirthDate()) && this.getClubs().equals(((Player)otherPlayer).getClubs()));
+        }
+    }
+
+    public String toString() {
+        return name + " " + surname + " " + birthDate + " " + clubs;
     }
 }
