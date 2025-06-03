@@ -1,53 +1,42 @@
-package structures;/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package structures;
 
-/**
- *
- * @author hasan
- * @param <T>
- */
-public class Stack<T> {
+public class Stack {
+    private Object[] stackArray;
+    private int topIndex;
+    private int stackSize;
 
-    private class Node<T>{
-        private T item;
-        private Node<T> link;
-
-        public Node(){
-            item=null;
-            link=null;
-        }
-
-        public Node(T item, Node<T> link) {
-            this.item = item;
-            this.link = link;
-        }
-        
-    }
-    private Node<T> head;
-
-    public Stack(){
-        head=null;
-    }
-    public void push(T newItem){
-        head=new Node(newItem,head);
+    public Stack(int capacity) {
+        this.stackSize = capacity;
+        this.stackArray = new Object[stackSize];
+        this.topIndex = -1;
     }
 
-    public T pop(){
-        if(head==null){
-            throw new IllegalStateException();
-        }
-        else{
-            T returnItem=(T) head.item;
-            head=head.link;
-            return returnItem;
-            
+    public void push(Object obj) {
+        if (topIndex == this.stackSize - 1 ){
+            System.out.println("Stack is full");
+            System.exit(0);
+        }else {
+            topIndex += 1;
+            stackArray[topIndex] = obj;
         }
     }
 
-    public boolean isEmpty(){
-        return (head==null);
+    public Object pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty!");
+            System.exit(0);
+        }
+        Object objectToBeDeleted = stackArray[topIndex];
+        stackArray[topIndex] = null;
+        topIndex -= 1;
+        return objectToBeDeleted;
     }
-    
+
+    public boolean isEmpty() {
+        return topIndex == -1;
+    }
+
+    public int size() {
+        return topIndex + 1;
+    }
 }
