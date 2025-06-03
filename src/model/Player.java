@@ -1,16 +1,12 @@
+package model;
 
 import java.util.ArrayList;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  *
  * @author hasan
  */
-public class Player {
+public class Player implements Comparable<Player> {
     private String name;
     private String surname;
     private Date birthDate;
@@ -54,5 +50,14 @@ public class Player {
     public void setClubs(ArrayList<String> clubs) {
         this.clubs = clubs;
     }
-    
+
+    @Override
+    public int compareTo(Player otherPlayer) {
+        int nameCompare = this.name.compareTo(otherPlayer.getName());
+        if (nameCompare != 0) {
+            return nameCompare;
+        }else {
+            return this.surname.compareTo(otherPlayer.getSurname());
+        }
+    }
 }
