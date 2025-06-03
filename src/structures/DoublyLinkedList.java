@@ -129,8 +129,10 @@ public class DoublyLinkedList{
         if (head != null)
         {
             head.previous = newHead;
+        }else {
+            tail = newHead;
         }
-        head = tail = newHead;
+        head = newHead;
     }
 
     public boolean deleteHeadNode( )
@@ -182,7 +184,7 @@ public class DoublyLinkedList{
     }
 
     public void insertSorted( Player newElement){
-        TwoWayNode nodeToBeInserted = new TwoWayNode(newElement, head, tail);
+        //TwoWayNode nodeToBeInserted = new TwoWayNode(newElement, head, tail);
 
         if (head == null){
             addToStart(newElement);
@@ -196,8 +198,15 @@ public class DoublyLinkedList{
         }
 
         TwoWayNode pointer = head;
-        while (pointer.next != null && newElement.compareTo(pointer.element) >= 0){
+        while (pointer != null && newElement.compareTo(pointer.element) >= 0){
             pointer = pointer.next;
+        }
+
+        if (pointer == null){
+            TwoWayNode newTail = new TwoWayNode(newElement, tail, null);
+            tail.next = newTail;
+            tail = newTail;
+            return;
         }
 
         // Eklenecek oyuncu sona eklenecekse taile baglar
@@ -211,7 +220,7 @@ public class DoublyLinkedList{
         //Ortaya eklenecekse player
         else {
             TwoWayNode beforePointer = pointer.previous;
-            TwoWayNode newMiddle = new TwoWayNode(newElement, beforePointer, beforePointer.previous);
+            TwoWayNode newMiddle = new TwoWayNode(newElement, beforePointer, pointer);
             beforePointer.next = newMiddle;
             pointer.previous = newMiddle;
         }
