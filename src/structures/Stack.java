@@ -1,4 +1,4 @@
-/*
+package structures;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -9,6 +9,7 @@
  * @param <Player>
  */
 public class Stack<Player> {
+
     private class Node<Player>{
         private Player item;
         private Node<Player> link;
@@ -30,6 +31,7 @@ public class Stack<Player> {
     public void push(Player newItem){
         head=new Node(newItem,head);
     }
+
     public Player pop(){
         if(head==null){
             throw new IllegalStateException();
@@ -41,6 +43,7 @@ public class Stack<Player> {
             
         }
     }
+
     public boolean isEmpty(){
         return (head==null);
     }

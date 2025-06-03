@@ -1,15 +1,13 @@
+package app;
+
+import model.Date;
+import model.Player;
+import structures.LinkedList;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 
 /**
  *
@@ -30,6 +28,7 @@ public class Demo {
                 String name=String.valueOf(playersArray[0]);
                 String surname=String.valueOf(playersArray[1]);
                 String birthDateString=String.valueOf(playersArray[2]);
+
                 String[] birthDateArray=birthDateString.split("/");
                 int day=Integer.parseInt(birthDateArray[0]);
                 int month=Integer.parseInt(birthDateArray[1]);
