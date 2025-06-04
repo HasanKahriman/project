@@ -8,9 +8,9 @@ package structures;
  * @author hasan
  * @param <Object>
  */
-public class Stack<Object> {
+public class Stack{
 
-     private Object[] stackArray;
+    private Object[] stackArray;
     private int topIndex;
     private int stackSize;
 
