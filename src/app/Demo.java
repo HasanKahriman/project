@@ -3,6 +3,7 @@ package app;
 import model.Date;
 import model.Player;
 import structures.DoublyLinkedList;
+import structures.Stack;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +14,7 @@ public class Demo {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         DoublyLinkedList playerList = new DoublyLinkedList();
+        Stack playerStack = new Stack(100);
 
         // Verileri dosyadan oku
         try (Scanner scanner = new Scanner(new FileReader("players.txt"))) {
@@ -37,6 +39,7 @@ public class Demo {
 
                 Player player = new Player(name, surname, birthDate, clubs);
                 playerList.insertSorted(player);
+
             }
         } catch (FileNotFoundException e) {
             System.out.println("players.txt file was not found.");
@@ -53,10 +56,27 @@ public class Demo {
                           + "9. Exit";
 
         int choice;
+
+        do {
+            System.out.println("\n--- OYUNCU LISTESI MENÜSÜ ---");
+            System.out.println("1. Listeyi A-Z sırayla yazdır");
+            System.out.println("2. Listeyi Z-A sırayla yazdır");
+            System.out.println("3. Oyuncu ara");
+            System.out.println("4. Oyuncu ekle");
+            System.out.println("5. Oyuncu sil");
+            System.out.println("6. Liste boyutunu göster");
+            System.out.println("7. Liste boş mu?");
+            System.out.println("8. Listeyi temizle");
+            System.out.println("9. Çıkış");
+            System.out.println("10. Listeyi yedekle");
+            System.out.println("11. Listeyi yedekten geri yükle");
+            System.out.print("Seçiminiz: ");
+
         boolean exit=false;
         while (!exit){
             System.out.println(operations);
             System.out.print("Please enter your choice :");
+
             choice = input.nextInt();
             input.nextLine();
             switch (choice){
@@ -129,9 +149,26 @@ public class Demo {
                     System.out.println("The list has been cleared.");
                     break;
                 case 9:
+
+                    System.out.println("Program sonlandırılıyor...");
+                    break;
+                case 10:
+                    playerList.copyBeforeDeleteToStack(playerStack);
+                    System.out.println("Yedek başarı ile alındı!");
+                    break;
+                case 11:
+                    if (!playerStack.isEmpty()) {
+                        playerList.getFromStackAfterDeletion(playerStack);
+                        System.out.println("Datas coppied from stack successfully");
+                    }else {
+                        System.out.println("There is no backup!");
+                    }
+                    break;
+
                     System.out.println("The program is being terminated...");
                     exit=true;
                     break;   
+                
                 default:
                     System.out.println("Invalid choice");
             }

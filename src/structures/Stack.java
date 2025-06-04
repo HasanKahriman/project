@@ -1,7 +1,24 @@
-package structures;/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package structures;
+
+
+public class Stack {
+    private Object[] stackArray;
+    private int topIndex;
+    private int stackSize;
+
+    public Stack(int capacity) {
+        this.stackSize = capacity;
+        this.stackArray = new Object[stackSize];
+        this.topIndex = -1;
+    }
+
+    public void push(Object obj) {
+        if (topIndex == this.stackSize - 1 ){
+            System.out.println("Stack is full");
+            System.exit(0);
+        }else {
+            topIndex += 1;
+            stackArray[topIndex] = obj;
 
 /**
  *
@@ -22,9 +39,25 @@ public class Stack<Object> {
         public Node(Object item, Node<Object> link) {
             this.item = item;
             this.link = link;
+
         }
-        
     }
+
+
+    public Object pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty!");
+            System.exit(0);
+        }
+        Object objectToBeDeleted = stackArray[topIndex];
+        stackArray[topIndex] = null;
+        topIndex -= 1;
+        return objectToBeDeleted;
+    }
+
+    public boolean isEmpty() {
+        return topIndex == -1;
+
     private Node<Object> head;
 
     public Stack(){
@@ -44,10 +77,10 @@ public class Stack<Object> {
             return returnItem;
             
         }
+
     }
 
-    public boolean isEmpty(){
-        return (head==null);
+    public int size() {
+        return topIndex + 1;
     }
-    
 }

@@ -300,4 +300,26 @@ public class DoublyLinkedList{
         }
     }
 
+    //this method copy the all elements from doublyLinkedList to our stack for future using
+    public void copyBeforeDeleteToStack(Stack stack) {
+        DoublyLinkedIterator iterator = iterator();
+        while (iterator.hasNext()) {
+            stack.push(iterator.next());
+        }
+    }
+
+    //this copy players from stack to doublyLinkedList
+    //it serves as a backup
+    public void getFromStackAfterDeletion(Stack stack) {
+        while (!stack.isEmpty()) {
+            Player p = (Player) stack.pop();
+            insertSorted(p);
+        }
+    }
+
+
+
+
+
+
 }
