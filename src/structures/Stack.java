@@ -6,40 +6,40 @@ package structures;/*
 /**
  *
  * @author hasan
- * @param <T>
+ * @param <Object>
  */
-public class Stack<T> {
+public class Stack<Object> {
 
-    private class Node<T>{
-        private T item;
-        private Node<T> link;
+    private class Node<Object>{
+        private Object item;
+        private Node<Object> link;
 
         public Node(){
             item=null;
             link=null;
         }
 
-        public Node(T item, Node<T> link) {
+        public Node(Object item, Node<Object> link) {
             this.item = item;
             this.link = link;
         }
         
     }
-    private Node<T> head;
+    private Node<Object> head;
 
     public Stack(){
         head=null;
     }
-    public void push(T newItem){
+    public void push(Object newItem){
         head=new Node(newItem,head);
     }
 
-    public T pop(){
+    public Object pop(){
         if(head==null){
             throw new IllegalStateException();
         }
         else{
-            T returnItem=(T) head.item;
+            Object returnItem=(Object) head.item;
             head=head.link;
             return returnItem;
             
