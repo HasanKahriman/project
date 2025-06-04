@@ -42,11 +42,21 @@ public class Demo {
 
             }
         } catch (FileNotFoundException e) {
-            System.out.println("players.txt dosyası bulunamadı.");
+            System.out.println("players.txt file was not found.");
         }
+        String operations="--- PLAYER LIST MENU ---\n"
+                          + "1. Print the list in A-Z order\n"
+                          + "2. Print the list in Z-A order\n"
+                          + "3. Search for a player\n"
+                          + "4. Add a player\n"
+                          + "5. Remove a player\n"
+                          + "6. Show list size\n"
+                          + "7. Is the list empty?\n"
+                          + "8. Clear the list\n"
+                          + "9. Exit";
 
-        // Menü döngüsü
         int choice;
+
         do {
             System.out.println("\n--- OYUNCU LISTESI MENÜSÜ ---");
             System.out.println("1. Listeyi A-Z sırayla yazdır");
@@ -61,10 +71,15 @@ public class Demo {
             System.out.println("10. Listeyi yedekle");
             System.out.println("11. Listeyi yedekten geri yükle");
             System.out.print("Seçiminiz: ");
-            choice = input.nextInt();
-            input.nextLine(); // dummy newline
 
-            switch (choice) {
+        boolean exit=false;
+        while (!exit){
+            System.out.println(operations);
+            System.out.print("Please enter your choice :");
+
+            choice = input.nextInt();
+            input.nextLine();
+            switch (choice){
                 case 1:
                     playerList.outputList();
                     break;
@@ -72,63 +87,69 @@ public class Demo {
                     playerList.outputListFromBack();
                     break;
                 case 3:
-                    System.out.print("Ad: ");
+                    System.out.print("Name: ");
                     String searchName = input.nextLine();
-                    System.out.print("Soyad: ");
+                    System.out.print("Surname: ");
                     String searchSurname = input.nextLine();
                     Player found = playerList.find(searchName, searchSurname);
                     if (found != null) {
-                        System.out.println("Oyuncu bulundu:\n" + found);
+                        System.out.println("The player was found:\n" + found);
                     } else {
-                        System.out.println("Oyuncu bulunamadı.");
+                        System.out.println("The player was not found.");
                     }
                     break;
                 case 4:
-                    System.out.print("Ad: ");
+                    System.out.print("Name: ");
                     String name = input.nextLine();
-                    System.out.print("Soyad: ");
+                    System.out.print("Surname: ");
                     String surname = input.nextLine();
-                    System.out.print("Doğum tarihi (GG/AA/YYYY): ");
+                    System.out.print("Date of birth (DD/MM/YYYY): ");
                     String[] dateParts = input.nextLine().split("/");
                     int d = Integer.parseInt(dateParts[0]);
                     int m = Integer.parseInt(dateParts[1]);
                     int y = Integer.parseInt(dateParts[2]);
                     Date date = new Date(m, d, y);
                     ArrayList<String> clubList = new ArrayList<>();
-                    System.out.print("Kaç kulüp oynadı?: ");
+                    System.out.print("How many clubs did he play for ?: ");
                     int clubCount = input.nextInt();
                     input.nextLine();
                     for (int i = 0; i < clubCount; i++) {
-                        System.out.print("Kulüp " + (i + 1) + ": ");
+                        System.out.print("Club " + (i + 1) + ": ");
                         clubList.add(input.nextLine());
                     }
                     Player newPlayer = new Player(name, surname, date, clubList);
                     playerList.insertSorted(newPlayer);
-                    System.out.println("Oyuncu eklendi.");
+                    System.out.println("Player added.");
                     break;
                 case 5:
-                    System.out.print("Silinecek oyuncunun adı: ");
+                    System.out.print("The name of the player to be deleted: ");
                     String delName = input.nextLine();
-                    System.out.print("Soyadı: ");
+                    System.out.print("The surname of the player to be deleted: ");
                     String delSurname = input.nextLine();
                     boolean deleted = playerList.deletePlayer(delName, delSurname);
                     if (deleted) {
-                        System.out.println("Oyuncu silindi.");
+                        System.out.println("The player has been deleted.");
                     } else {
-                        System.out.println("Oyuncu bulunamadı.");
+                        System.out.println("The player was not found.");
                     }
                     break;
                 case 6:
-                    System.out.println("Toplam oyuncu sayısı: " + playerList.size());
+                    System.out.println("Total number of the players : " + playerList.size());
                     break;
                 case 7:
-                    System.out.println(playerList.isEmpty() ? "Liste boş." : "Liste boş değil.");
+                    if (playerList.isEmpty()){
+                        System.out.println("The list is empty.");
+                    }
+                    else {
+                        System.out.println("The list is not emtpy");
+                    }
                     break;
                 case 8:
                     playerList.clear();
-                    System.out.println("Liste temizlendi.");
+                    System.out.println("The list has been cleared.");
                     break;
                 case 9:
+
                     System.out.println("Program sonlandırılıyor...");
                     break;
                 case 10:
@@ -143,10 +164,16 @@ public class Demo {
                         System.out.println("There is no backup!");
                     }
                     break;
-                default:
-                    System.out.println("Geçersiz seçim.");
-            }
 
-        } while (choice != 9);
-    }
+                    System.out.println("The program is being terminated...");
+                    exit=true;
+                    break;   
+                
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+        // Menü döngüsü
+        
+    }   
 }
