@@ -155,9 +155,9 @@ public class Demo {
                 case 12:
                     boolean statusOfSave = playerList.saveFromBackupToFile(playerStack);
                     if (statusOfSave) {
-                        System.out.println("Başarı ile yedek locale save edildi");
+                        System.out.println("Backup was successfully saved to the local storage.");
                     }else {
-                        System.out.println("Save alma işlemi başarısız oldu");
+                        System.out.println("The save operation failed.");
                     }
                     break;
                 default:
