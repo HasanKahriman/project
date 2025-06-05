@@ -53,7 +53,10 @@ public class Demo {
                           + "6. Show list size\n"
                           + "7. Is the list empty?\n"
                           + "8. Clear the list\n"
-                          + "9. Exit";
+                          + "9. Backup players to the stack\n";
+                          + "10. Get backup from stack to the doublyList\n";
+                          + "11. Exit";
+                          
 
         int choice;
 
@@ -67,9 +70,9 @@ public class Demo {
             System.out.println("6. Liste boyutunu göster");
             System.out.println("7. Liste boş mu?");
             System.out.println("8. Listeyi temizle");
-            System.out.println("9. Çıkış");
-            System.out.println("10. Listeyi yedekle");
-            System.out.println("11. Listeyi yedekten geri yükle");
+            System.out.println("9. Listeyi yedekle");
+            System.out.println("10. Listeyi yedekten geri yükle");
+            System.out.println("11. Çıkış ");
             System.out.print("Seçiminiz: ");
 
         boolean exit=false;
@@ -149,20 +152,19 @@ public class Demo {
                     System.out.println("The list has been cleared.");
                     break;
                 case 9:
-
-                    System.out.println("Program sonlandırılıyor...");
-                    break;
-                case 10:
                     playerList.copyBeforeDeleteToStack(playerStack);
                     System.out.println("Yedek başarı ile alındı!");
                     break;
-                case 11:
+                case 10:
                     if (!playerStack.isEmpty()) {
                         playerList.getFromStackAfterDeletion(playerStack);
                         System.out.println("Datas coppied from stack successfully");
                     }else {
                         System.out.println("There is no backup!");
                     }
+                    break;
+                case 11:
+                    System.out.println("Program sonlanıyor...");
                     break;
 
                     System.out.println("The program is being terminated...");
@@ -173,7 +175,6 @@ public class Demo {
                     System.out.println("Invalid choice");
             }
         }
-        // Menü döngüsü
         
     }   
 }
