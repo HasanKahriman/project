@@ -1,14 +1,13 @@
 package app;
 
-import model.Date;
-import model.Player;
-import structures.DoublyLinkedList;
-import structures.Stack;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.Date;
+import model.Player;
+import structures.DoublyLinkedList;
+import structures.Stack;
 
 public class Demo {
     public static void main(String[] args) {
@@ -41,6 +40,7 @@ public class Demo {
                 playerList.insertSorted(player);
 
             }
+            
         } catch (FileNotFoundException e) {
             System.out.println("players.txt file was not found.");
         }
@@ -53,27 +53,11 @@ public class Demo {
                           + "6. Show list size\n"
                           + "7. Is the list empty?\n"
                           + "8. Clear the list\n"
-                          + "9. Backup players to the stack\n";
-                          + "10. Get backup from stack to the doublyList\n";
-                          + "11. Exit";
-                          
-
+                          + "9. Exit\n"
+                          + "10. Back up the list\n"
+                          + "11. Restore the list from back up\n"
+                          + "12. Save last backup to a file";
         int choice;
-
-        do {
-            System.out.println("\n--- OYUNCU LISTESI MENÜSÜ ---");
-            System.out.println("1. Listeyi A-Z sırayla yazdır");
-            System.out.println("2. Listeyi Z-A sırayla yazdır");
-            System.out.println("3. Oyuncu ara");
-            System.out.println("4. Oyuncu ekle");
-            System.out.println("5. Oyuncu sil");
-            System.out.println("6. Liste boyutunu göster");
-            System.out.println("7. Liste boş mu?");
-            System.out.println("8. Listeyi temizle");
-            System.out.println("9. Listeyi yedekle");
-            System.out.println("10. Listeyi yedekten geri yükle");
-            System.out.println("11. Çıkış ");
-            System.out.print("Seçiminiz: ");
 
         boolean exit=false;
         while (!exit){
@@ -152,10 +136,15 @@ public class Demo {
                     System.out.println("The list has been cleared.");
                     break;
                 case 9:
-                    playerList.copyBeforeDeleteToStack(playerStack);
-                    System.out.println("Yedek başarı ile alındı!");
-                    break;
+
+                    System.out.println("The program is being terminated...");
+                    exit=true;
+                    break;   
                 case 10:
+                    playerList.copyBeforeDeleteToStack(playerStack);
+                    System.out.println("The replacement was taken with success!");
+                    break;
+                case 11:
                     if (!playerStack.isEmpty()) {
                         playerList.getFromStackAfterDeletion(playerStack);
                         System.out.println("Datas coppied from stack successfully");
@@ -163,18 +152,17 @@ public class Demo {
                         System.out.println("There is no backup!");
                     }
                     break;
-                case 11:
-                    System.out.println("Program sonlanıyor...");
+                case 12:
+                    boolean statusOfSave = playerList.saveFromBackupToFile(playerStack);
+                    if (statusOfSave) {
+                        System.out.println("Başarı ile yedek locale save edildi");
+                    }else {
+                        System.out.println("Save alma işlemi başarısız oldu");
+                    }
                     break;
-
-                    System.out.println("The program is being terminated...");
-                    exit=true;
-                    break;   
-                
                 default:
                     System.out.println("Invalid choice");
             }
         }
-        
     }   
 }

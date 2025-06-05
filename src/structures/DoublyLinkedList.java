@@ -1,8 +1,10 @@
 package structures;
 
-import model.Player;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.NoSuchElementException;
+import model.Player;
 
 public class DoublyLinkedList{
 
@@ -30,14 +32,17 @@ public class DoublyLinkedList{
     public class DoublyLinkedIterator{
         private TwoWayNode position = null;
 
+        //position olarak yani listeyi dönerken kullandığımız pointeri head yani ilk düğüme set eder
         public DoublyLinkedIterator(){
             this.position = head;
         }
 
+        //iterator tekrar liste başına gelmesi gerektiğinde tekrar pointeri head'e set eder
         public void restart(){
             this.position = head;
         }
 
+        //o an bulunduğu düğümden sonraki düğümdeki datayı yani Player nesnesini return eder
         public Player next(){
             if(!hasNext())
                 throw new NoSuchElementException();
@@ -46,20 +51,23 @@ public class DoublyLinkedList{
             return player;
         }
 
+        //iterate edebilecek eleman var mı diye kontrol
         public boolean hasNext()
         {
             return (position != null);
         }
 
+        //iterate eldecek eleman var ise sonraki düğümün datasını return eder
         public Player peek()
         {
             if (!hasNext())
                 throw new IllegalStateException();
             return position.element;
         }
-
+        
+        
         public void insertHere(Player newElement)
-        {
+        {   //Eğer liste boş değil ama iteratorun positionu set edilmemiş ise headin arkasına ekler yeni düğümü
             if (position == null && head != null)
             {
                 TwoWayNode temp = head;
@@ -69,25 +77,29 @@ public class DoublyLinkedList{
                 }
                 temp.next = new TwoWayNode(newElement, temp, null);
                 tail =temp.next;
-            }
+            } // iterator boş ise ve liste de boş ise en başa ekler Player listesini bir düğüm
             else if (head == null || position.previous == null)
                 DoublyLinkedList.this.addToStart(newElement);
             else
             {
-                // Insert before the current position
+                //iterator boş değilse mevcut konumdan önce ekler
                 TwoWayNode temp = new TwoWayNode(newElement, position.previous, position);
                 position.previous.next = temp;
                 position.previous = temp;
             }
         }
 
+        //iteratorun konumuna göre eğer previousu boş olan bir düğüm var ise onun head olması demektir
+        //head nodeyi siler
+        //eğer iterator set edilmemişse hata döndürür
+        //eğer nexti null olan bir node var ise o tail nodedir o yüzden taili siler ve tailin previousunu
+        //yeni tail olarak assign eder
         public void delete()
         {
             if (position == null)
                 throw new IllegalStateException();
             else if (position.previous == null)
             {
-                // Deleting first node
                 head = head.next;
                 position = head;
                 if (head == null){
@@ -98,7 +110,6 @@ public class DoublyLinkedList{
             }
             else if (position.next == null)
             {
-                // Deleting last node
                 position.previous.next = null;
                 tail = position.previous;
                 position = null;
@@ -115,14 +126,17 @@ public class DoublyLinkedList{
     private TwoWayNode head;
     private TwoWayNode tail;
 
+    //class dışından iterator nesnesi oluşturmadan iterator nesnesini çağırmak istersek diye
     public DoublyLinkedIterator iterator(){
         return new DoublyLinkedIterator();
     }
 
+    //ana constructorumuz headi null olarak assign eder
     public DoublyLinkedList(){
         head = null;
     }
 
+    //listeye baştan eleman ekler yani head nodeyi assign eder
     public void addToStart(Player newElement)
     {
         TwoWayNode newHead = new TwoWayNode(newElement, null, head);
@@ -135,6 +149,7 @@ public class DoublyLinkedList{
         head = newHead;
     }
 
+    //head nodeyi siler
     public boolean deleteHeadNode( )
     {
         if (head != null)
@@ -150,6 +165,8 @@ public class DoublyLinkedList{
         return false;
     }
 
+    //head nodeden başlayarak tek tek nodenin nextine positionu set eder
+    //eğer position.next null değil ise countu yani listenin eleman sayısını artırır her bir eleman için
     public int size( )
     {
         int count = 0;
@@ -162,6 +179,8 @@ public class DoublyLinkedList{
         return count;
     }
 
+    //head nodeden başlayarak her bir nodenin datasını(player objesini) yazdırır
+    //Player sınıfındaki toString sayesinde kullanıcı doğrudan player nesnesinin datasını görüntüler
     public void outputList( )
     {
         TwoWayNode position = head;
@@ -172,11 +191,14 @@ public class DoublyLinkedList{
         }
     }
 
+    //liste boş mu diye bakar
     public boolean isEmpty( )
     {
         return (head == null);
     }
 
+    //listenin bağlarını kopartır Java sınıfındaki garbageCollector elemanları temizler
+    //yani listeyi sıfırlar
     public void clear( )
     {
         head = null;
@@ -197,11 +219,16 @@ public class DoublyLinkedList{
             return;
         }
 
+        //pointeri head node'den başlayarak datasını yani player objesinin adına ve soyadına göre
+        //karşılaştırma yaparak ilerler ve pointeri uygun yere kadar getirir
         TwoWayNode pointer = head;
         while (pointer != null && newElement.compareTo(pointer.element) >= 0){
             pointer = pointer.next;
         }
 
+        //eğer eğer pointer null ise yani henüz alfabetik olarak kendisinden sonra gelen bir 
+        //isime sahip player objesini içeren node bulunamadı ise bizim playerimizi 
+        //listeye yeni kuyruk tail node olarak ekler
         if (pointer == null){
             TwoWayNode newTail = new TwoWayNode(newElement, tail, null);
             tail.next = newTail;
@@ -226,6 +253,8 @@ public class DoublyLinkedList{
         }
     }
 
+    //Parametre olarak alınan name, surname değerlerine sahip oyuncuyu bulur ve döndürür
+    //oyuncu yoksa null döndürür
     public Player find(String name, String surname){
         TwoWayNode position = head;
         while (position != null){
@@ -237,6 +266,7 @@ public class DoublyLinkedList{
         }
         return null;
     }
+
 
     public boolean deletePlayer(String name, String surname){
         //donguyu gezdigimizde karsilastirma yapiacak her bir eleman
@@ -300,7 +330,8 @@ public class DoublyLinkedList{
         }
     }
 
-    //this method copy the all elements from doublyLinkedList to our stack for future using
+    //bu method ile listemizdeki elemanları parametre olarak alınan stack yapısına
+    //kopyalıyoruz yani bir nevi yedeğini alıyoruz
     public void copyBeforeDeleteToStack(Stack stack) {
         DoublyLinkedIterator iterator = iterator();
         while (iterator.hasNext()) {
@@ -308,8 +339,8 @@ public class DoublyLinkedList{
         }
     }
 
-    //this copy players from stack to doublyLinkedList
-    //it serves as a backup
+    //daha önceden elemanları kopyaladığımız stackteki elemanları tekrardan 
+    //listeye eklemek için yani yedekten geri yükleme mekanizasması amacı ile yazıldı bu method
     public void getFromStackAfterDeletion(Stack stack) {
         while (!stack.isEmpty()) {
             Player p = (Player) stack.pop();
@@ -317,9 +348,36 @@ public class DoublyLinkedList{
         }
     }
 
+    //Stacke yedeklenen verileri yedek.txt dosyasına write eder
+    public boolean saveFromBackupToFile(Stack stack) {
+        if (!stack.isEmpty()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("yedek.txt"))) {
+                Stack tempStack = new Stack(stack.size());
 
+                // Stacki geçici bir stacke aktarır
+                while (!stack.isEmpty()) {
+                    Player p = (Player) stack.pop();
+                    tempStack.push(p);
+                }
 
+                // geçici stackten tekrar okuyarak dosyaya yazar
+                while (!tempStack.isEmpty()) {
+                    Player p = (Player) tempStack.pop();
+                    stack.push(p); // Orijinal stack'e geri koy
+                    writer.write(p.toString()); // Oyuncuyu dosya formatında yaz
+                    writer.newLine();
+                }
 
-
+                //işlem başarılı ise true döner kontroller için
+                return true;
+            } catch (IOException e) {
+                System.out.println("Error writing to file: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Stack is empty. Nothing to write.");
+        }
+        //başarılı olmadıysa false olarak return eder
+        return false;
+    }
 
 }
